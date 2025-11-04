@@ -1,0 +1,23 @@
+{% extends "learning_logs/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+  <h2>Edit entry from {{ entry.date_added|date:'M d, Y H:i' }} ({{ topic.text}})</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+  <p><a href="{% url 'learning_logs:topic' topic.id %}" 
+    class="btn btn-outline-secondary mb-3">
+    &larr; Back to {{ topic.text}}</a>
+  </p>
+
+  <h4>Edit entry</h4>
+
+  <form action="{% url 'learning_logs:edit_entry' entry.id %}" method='post'>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Save changes" %}
+  </form>
+
+{% endblock content %}
