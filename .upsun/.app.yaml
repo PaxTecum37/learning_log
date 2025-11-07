@@ -15,6 +15,9 @@ applications:
           expires: 1h
           allow: true
 
+    relationships: 
+      database: "db:postgresql"
+
     #Set a local read/write mount for logs.
     mounts:
       "logs":
