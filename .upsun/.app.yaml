@@ -1,13 +1,12 @@
-# The configuration of the app when it's exposed to the web.
 applications:
   ll_project:
-    type: "python:3.12"
+    type: "composable:24.05"
     build:
       flavor: none
 
-    dependencies:
-      python:
-        pip: "24.0"
+    variables:
+      runtime:
+        python_version: 3.12
 
     relationships:
       database: "db:postgresql"
@@ -41,4 +40,4 @@ applications:
       deploy: |
         python manage.py migrate
 
-# force rebuild 5
+# force rebuild 7
