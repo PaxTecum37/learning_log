@@ -1,6 +1,7 @@
 applications:
   ll_project:
     type: "composable:24.05"
+    stack: "python"
     build:
       flavor: none
 
