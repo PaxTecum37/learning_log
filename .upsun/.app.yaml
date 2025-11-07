@@ -14,21 +14,21 @@ applications:
           expires: 1h
           allow: true
 
-#Set a local read/write mount for logs.
-mounts:
-  "logs":
-    source: local
-    source_path: logs
+    #Set a local read/write mount for logs.
+    mounts:
+      "logs":
+        source: local
+        source_path: logs
 
-# The hooks executed at various points in the lifecycle of the application.
-hooks:
-  build: |
-    pip install --upgrade pip
-    pip install -r requirements.txt
-    pip install -r requirements_remote.txt
+    # The hooks executed at various points in the lifecycle of the application.
+    hooks:
+      build: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements_remote.txt
 
-    mkdir logs
-    python manage.py collectstatic
-    rm -rf logs
-  deploy: |
-    python manage.py migrate
+        mkdir logs
+        python manage.py collectstatic
+        rm -rf logs
+      deploy: |
+        python manage.py migrate
