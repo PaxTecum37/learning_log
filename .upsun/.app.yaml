@@ -3,7 +3,8 @@ applications:
     type: "composable:24.05"
     stack: "python"
     build:
-      flavor: none
+      steps:
+        - layer: python
 
     variables:
       runtime:
