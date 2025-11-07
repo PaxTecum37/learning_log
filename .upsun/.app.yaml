@@ -2,7 +2,6 @@
 applications:
   ll_project:
     stack: python
-    disk: 512
 
     web:
       commands:
