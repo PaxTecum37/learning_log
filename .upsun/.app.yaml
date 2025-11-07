@@ -2,9 +2,6 @@ applications:
   ll_project:
     type: "composable:24.05"
     stack: "python"
-    build:
-      steps:
-        - layer: python
 
     variables:
       runtime:
@@ -34,12 +31,12 @@ applications:
     hooks:
       build: |
         set -e
-        python pip install --upgrade pip
-        python pip install -r requirements.txt
-        python pip install -r requirements_remote.txt
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt
+        python3 -m pip install -r requirements_remote.txt
         mkdir -p logs
-        python manage.py collectstatic --noinput
+        python3 manage.py collectstatic --noinput
       deploy: |
-        python manage.py migrate
+        python3 manage.py migrate
 
-# force rebuild 7
+# force rebuild 10
