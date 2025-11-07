@@ -3,7 +3,7 @@
 routes:
   "https://{default}/":
     type: upstream
-    upstream: "app:http"
+    upstream: "ll_project"
 
   "https://www.{default}/":
     type: redirect
