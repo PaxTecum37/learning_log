@@ -2,6 +2,5 @@
 # Platform.sh project.
 
 services:
-  db: 
-    type: postgresql:12
-    disk: 256
+  db:
+    type: postgresql:15
