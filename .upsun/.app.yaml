@@ -38,4 +38,4 @@ applications:
       deploy: |
         python manage.py migrate
 
-# force rebuild
+# force rebuild2
