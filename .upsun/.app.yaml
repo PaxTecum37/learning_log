@@ -2,6 +2,8 @@
 applications:
   ll_project:
     type: "python:3.12"
+    build:
+      flavor: none
 
     dependencies:
       python:
