@@ -1,17 +1,15 @@
 # .upsun/config.yaml
-type: "composable:25.05"   # može i 24.05, ali 25.05 je aktualni kanal
 services:
-  database:                 # ime servisa -> koristi se i kao ime relationshipa
-    type: postgresql:15     # može 18; ostavi 15 ako ga već koristiš
+  database:
+    type: postgresql:15
 
 applications:
   ll_project:
-    stack:
-      - "python@3.12"
+    type: "python:3.12"
 
     web:
       upstream:
-        socket_family: unix           # ako promijeniš u tcp, vidi napomenu dolje
+        socket_family: unix
       commands:
         start: "gunicorn -b unix:$SOCKET ll_project.wsgi:application"
       locations:
@@ -22,22 +20,19 @@ applications:
           allow: true
           expires: 1h
 
-    # ovo ime relationshipa "database" generira varijable DATABASE_HOST, ... u runtimeu
     relationships:
-      database:
+      database: "database:postgresql"
 
     hooks:
       build: |
         set -eux
         python -m pip install --upgrade pip
-        # instaliraj obje ako obje koristiš (ili spoji u jednu datoteku)
         python -m pip install -r requirements.txt -r requirements_remote.txt
       deploy: |
         set -eux
         python manage.py collectstatic --noinput
         python manage.py migrate
 
-    # (opcionalno) writable mount za logove ili medije
     mounts:
       "var/log":
         source: instance
