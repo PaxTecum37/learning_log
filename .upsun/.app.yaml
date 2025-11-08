@@ -1,42 +1,44 @@
+# .upsun/config.yaml
+type: "composable:25.05"   # može i 24.05, ali 25.05 je aktualni kanal
+services:
+  database:                 # ime servisa -> koristi se i kao ime relationshipa
+    type: postgresql:15     # može 18; ostavi 15 ako ga već koristiš
+
 applications:
   ll_project:
-    type: "composable:24.05"
-    stack: "python"
-
-    variables:
-      runtime:
-        python_version: 3.12
-
-    relationships:
-      database: "db:postgresql"
+    stack:
+      - "python@3.12"
 
     web:
-      commands:
-        start: "gunicorn -w 4 -b unix:$SOCKET ll_project.wsgi:application"
       upstream:
-        socket_family: unix
+        socket_family: unix           # ako promijeniš u tcp, vidi napomenu dolje
+      commands:
+        start: "gunicorn -b unix:$SOCKET ll_project.wsgi:application"
       locations:
         "/":
           passthru: true
         "/static":
           root: "static"
-          expires: 1h
           allow: true
+          expires: 1h
 
-    mounts:
-      "logs":
-        source: local
-        source_path: logs
+    # ovo ime relationshipa "database" generira varijable DATABASE_HOST, ... u runtimeu
+    relationships:
+      database:
 
     hooks:
       build: |
-        set -e
-        python3 -m pip install --upgrade pip
-        python3 -m pip install -r requirements.txt
-        python3 -m pip install -r requirements_remote.txt
-        mkdir -p logs
-        python3 manage.py collectstatic --noinput
+        set -eux
+        python -m pip install --upgrade pip
+        # instaliraj obje ako obje koristiš (ili spoji u jednu datoteku)
+        python -m pip install -r requirements.txt -r requirements_remote.txt
       deploy: |
-        python3 manage.py migrate
+        set -eux
+        python manage.py collectstatic --noinput
+        python manage.py migrate
 
-# force rebuild 10
+    # (opcionalno) writable mount za logove ili medije
+    mounts:
+      "var/log":
+        source: instance
+        source_path: logs
