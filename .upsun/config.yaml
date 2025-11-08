@@ -37,3 +37,6 @@ applications:
       "var/log":
         source: instance
         source_path: logs
+      "var/static":
+        source: instance
+        source_path: static
